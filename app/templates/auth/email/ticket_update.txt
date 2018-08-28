@@ -1,0 +1,9 @@
+Dear {{ user.username }}
+
+A ticket that you own has been updated.
+
+You may access your ticket by clicking the link below:
+
+{{ url_for('main.ticket', ticketnum=ticketnum, _external=True) }}
+
+Regards

@@ -1,0 +1,4 @@
+<p>Dear {{ user.username }}</p>
+<p>A ticket that you own has been updated.</p>
+<p>You may access your ticket by <a href="{{ url_for('main.ticket', ticketnum=ticketnum, _external=True) }}">clicking here</a>.</p>
+<p>Regards,</p>

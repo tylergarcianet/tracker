@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block page_content %}
+    <div class="row" style="margin-bottom: 15px">
+        <div class="col-md-10">
+            <h1>Your Tickets</h1>
+        </div>
+        <div class="col-md-1" style="margin-top: 15px">
+            <form action="" method="post">
+            <input type="submit" name="Open" value="Open" class="btn {% if session["show_open"] %} btn-lg btn-success active {% else %} btn-default btn-lg {% endif %}">
+            </form>
+        </div>
+        <div class="col-md-1" style="margin-top: 15px">
+            <form action="" method="post">
+            <input type="submit" name="Closed" value="Closed" class="btn {% if session["show_open"] %} btn-default btn-lg {% else %} btn-lg btn-success active {% endif %}">
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+    <table class="table table-bordered table-responsive table-hover" border="2px"; style="border-collapse: collapse;">
+        <thead class="thead-invserse">
+            <tr>
+                <th>#</th>
+                <th>Title</th>
+                <th>Requester</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for ticket in tickets %}
+            <tr>
+                <td>{{ ticket.id }}</td>
+                <td><a href="{{ url_for('main.ticket', ticketnum=ticket.id) }}">{{ ticket.tickettitle }}</a></td>
+                <td>{{ ticket.user.username }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <nav aria-label="...">
+        <ul class="pager">
+            <li class="previous{% if not prev_url %} disabled{% endif %}">
+                <a href="{{ prev_url or '#' }}">
+                    <span aria-hidden="true">&larr;</span> Newer posts
+                </a>
+            </li>
+            <li class="next{% if not next_url %} disabled{% endif %}">
+                <a href="{{ next_url or '#' }}">
+                    Older posts <span aria-hidden="true">&rarr;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+    <script>
+        function timedRefresh(timeoutPeriod) {
+        setTimeout("location.reload(true);",timeoutPeriod);
+        }
+
+        window.onload = timedRefresh(60000); //Reloads page every 60 seconds
+    </script>
+{% endblock %}

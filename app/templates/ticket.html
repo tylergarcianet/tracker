@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block page_content %}
+    <h1>Ticket #{{ ticket.id }}: {{ ticket.tickettitle }}</h1>
+    <table>
+        <tr>
+            <td>Created by: </td>
+            <td>{{ ticket.user.username}}</td>
+        </tr>
+        <tr>
+            <td>Created at: </td>
+            <td>{{ moment(ticket.timestamp).format('LLL') }}</td>
+        </tr>
+        <tr>
+            <td>Status: </td>
+            <td>{% if ticket.is_open %}Open{% else %}Closed{% endif %}</td>
+        </tr>
+        {% if allfiles %}
+        {% for file in allfiles %}
+        <tr>
+            <td>
+
+                    <a href="{{ url_for('main.uploaded_file', ticketnum=ticket.id, filename=file) }}">{{ file }}</a>
+
+            </td>
+        </tr>
+        {% endfor %}
+        {% endif %}
+        <tr>
+            <form method=post enctype=multipart/form-data>
+              <p><input type=file name=file>
+                 <input type=submit value=Upload>
+            </form>
+        </tr>
+        <h2>{{ ticket.ticketrequest }}</h2>
+    </table>
+    <hr>
+    {{ wtf.quick_form(ticket_toggle_status_form) }}
+    {{ wtf.quick_form(new_comment_form) }}
+    {% for comment in ticket.comments[::-1] %}
+    <hr>
+    <p>{{ comment.user.username }} says: <b>{{ comment.body }}</b></p>
+    {% endfor %}
+{% endblock %}

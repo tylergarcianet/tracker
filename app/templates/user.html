@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block page_content %}
+    <div class="page-header">
+        <h1>{{ user.username }}</h1>
+    <p>
+        Account Created: {{ moment(user.accountcreated).format("LLL") }}
+        Last Logged In: {{ moment(user.lastloggedin).fromNow() }}
+        Role: {% if user.isadmin %}Admin{% else %}User{% endif %}
+        {{ wtf.quick_form(toggle_disable_form) }}
+    </p>
+    </div>
+{% endblock %}

@@ -1,0 +1,13 @@
+Dear {{ user.nickname }}
+
+Welcome to my Ticket Support System
+
+To Confirm your account please click on the following link:
+
+{{ url_for('auth.confirm', token=token, _external=True) }}
+
+Sincerely,
+
+The Developer
+
+Note: Replies to this email address are not monitored
